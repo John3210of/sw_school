@@ -1,0 +1,460 @@
+show dbs
+
+use adam
+
+db
+
+db.dropDatabase()
+
+use adam
+
+show dbs
+
+db.mycollection.insertOne({name:1})
+
+show dbs
+
+db.getCollectionNames()
+
+show collections
+
+db.mycollection.drop()
+
+db.getCollectionInfos()
+
+db.serverStatus()
+
+db.stats()
+
+db.createCollection('cappedCollection', {capped:true, size:10000})
+
+db.cappedCollection.insertOne({x:1})
+
+db.cappedCollection.find()
+
+db.cappedCollection.stats()
+
+for(i=0; i<1000; i++){ db.cappedCollection.insertOne({x:i})}
+
+db.cappedCollection.find()
+
+db.users.insert( { name: "adam", age: 25, gender: "man"})
+
+db.users.find()
+
+db.inventory.insert(
+   {
+     item:"ABC1",
+     details:{
+         model : "14Q3",
+         manufacturer : "xyz Company"
+      },
+      stock:[{size:"s",qty:25},{size:"M",qty:50}],
+      category: "clothing"
+    }
+)
+
+db.inventory.find()
+
+db.users.insert([{name:"matt"}, {name:"lara"}])
+
+db.users.find()
+
+var mydocuments = [
+   {item:"ABC2", details:{model : "14Q3",manufacturer : "ABC Company"},
+    stock:[{size:"M",qty:50}],
+    category: "clothing"
+   },
+   {item:"ABC3",details:{ model : "14Q3",manufacturer : "CCC Company"},
+    stock:[{size:"s",qty:25},{size:"M",qty:50},{size:"L",qty:50}],
+    category: "clothing"
+   },
+   {item:"ABC3",details:{model : "14Q3",manufacturer : "AAA Company"},
+    stock:[{size:"s",qty:30}],
+    category: "clothing"
+    },
+]
+
+db.inventory.insert(mydocuments)
+
+db.inventory.find()
+
+db.sample.createIndex({name:1}, {unique:true})
+
+db.sample.insert({name:"park"})
+
+db.sample.insert([{name:"kim"}, {name:"park"},{name:"lee"}, {name:"choi"}], {ordered:true})
+
+db.sample.find()
+
+db.sample.drop()
+
+db.sample.createIndex({name:1}, {unique:true})
+
+db.sample.insert({name:"park"})
+
+db.sample.insert([{name:"kim"}, {name:"park"},{name:"lee"}, {name:"choi"}], {ordered:false})
+
+db.sample.find()
+
+db.sample.insert({name:"hwang"}, {noption:true})
+
+db.sample.find()
+
+var newId = new ObjectId()
+db.sample.insert({_id:newId, name:"user01"})
+db.sample.find()
+
+db.user.insertOne({username:"karoid",password:"1111"})
+
+db.user.find().pretty()
+
+db.user.insertMany([
+{username:"John", password:4321},
+{username:"K", password:4221},
+{username:"Mark", password:5321}
+])
+
+
+db.myCollections.insertMany( [
+{ _id: 13, item: "envelopes", qty: 60 },{ _id: 13, item: "stamps", qty: 110 },{ _id: 14, item: "packing tape", qty: 38 } ] );
+
+
+var num=1
+for(var i=0; i<3; i++){ db.sample.insertOne({name:"user"+i, score:num})}
+
+db.sample.find()
+
+db.users.find()
+
+db.users.find({name:"adam"})
+
+db.inventory.find({category:"clothing"})
+
+
+db.containerBox.insertMany([
+{name: 'bear', weight: 60, category: 'animal'},
+{name: 'bear', weight: 10, category: 'animal'},
+{name: 'cat', weight: 2, category:'animal'},
+{name: 'phone', weight: 1, category: 'electronic'}])
+
+db.containerBox.find({category: 'animal', name: 'bear'})
+
+db.containerBox.find(null,{name: true})
+
+db.containerBox.find(null,{_id:false, name: 0})
+
+db.inventory.find({item: {$eq: "hello"}})
+
+db.inventory.find({tags:{$in:["blank", "blue"]}})
+
+db.inventory.find({tags:{$nin:["blank", "blue"]}})
+
+db.inventory.find({tags: {$in: [/^[a-z]la/]} })
+
+db.inventory.find({tags: {$nin: [/^b/]} })
+
+db.users.find({id:{$ne:"admin"}})
+
+db.users.find({id:{$in:["root","user01"]}})
+
+
+db.inventory.find({qty:{$not:{$gt:2}}})
+
+db.inventory.find({$or:[{qty:{$gt:100}}, {qty:{$lt:10}}]})
+
+db.inventory.find({$and:[{$or:[{price:0.99}, {price:1.99}]}, {$or:[{sale:true}, {qty:{$lt:20}}]}]})
+
+db.users.find( {$or: [ {id:"root"}, {status:"D"} ] })
+
+db.users.find({"age":{$gte:50, $lte:60}})
+
+
+db.users.insert({name: 'paulo'})
+db.users.insert({name: 'patric'})
+db.users.insert({name: 'pedro'})
+
+db.users.find({name: /a/})  //like '%a%’
+db.users.find({name: /^pa/}) //like 'pa%’
+db.users.find({name: /ro$/}) //like '%ro’
+
+db.stores.insertMany( [
+{ _id: 1, name: "Java Hut", description: "Coffee and cakes"},
+{ _id: 2, name: "Burger Buns", description: "Gourmet hamburgs"}, { _id: 3, name: "Coffee Shopping", description: "Just coffee"},
+{ _id: 4, name: "Clothes Clothes Clothes", description: "Discount clothing" },
+{ _id: 5, name: "Java Shopping", description: "Indonesian goods"}, { _1d: 6, name: "영희의 옷", description: "옷이 펄럭거리다"},
+{ _id: 7, name: "달리는 철수", description: "철수는 인도인"}])
+
+db.stores.createIndex({name: "text", description: "text" } )
+
+db.stores.find( { $text: { $search: "coffee" }})
+
+db.stores.find( { $text: { $search: "bake coffee cake" }}) //or
+
+db.stores.find( { $text: { $search: "shopped" }})
+
+
+db.inventory.insertMany([
+ { item: "journal", qty: 25, tags: ["blank", "red"] },
+ { item: "notebook", qty: 50, tags: ["red", "blank"] },
+ { item: "paper", qty: 100, tags:[]},
+ { item: "planner", qty: 75, tags: ["blank", "red"] },
+ { item: "postcard", qty: 45, tags: ["blue"] }
+]);
+
+db.inventory.find ({tags: "red"}, {_id: false})
+
+db.inventory.find({tags: ["red", "blank"]}, {_id: false})
+
+db.users.insert({name:"matt", scores:[79, 85, 93]})
+db.users.insert({name:"lara", scores:[91, 74, 63]})
+db.users.find({scores:{$gt:80, $lt:90}})
+
+
+db.inventory.find({},{tags: {$slice: 1} })
+db.inventory.find({},{tags: {$slice: -2} })
+db.inventory.find({},{tags: {$slice: [1,3]} })
+db.inventory.find({tags: "red"},{"tags.$":true})
+db.users.find({scores:{$elemMatch:{$gt:80, $lt:90}}})
+db.inventory.find( { tags: { $all: ["red", "blank"]} }, {_id: false})
+db.inventory.find( { "tags": { $size: 0 } }, {_id: false} )
+db.inventory.find( { qty: { $exists: true, $nin: [ 5, 15 ] } } )
+
+
+db.addressBook.insertMany(
+   [
+      { "_id" : 1, address : "2030 Martian Way", zipCode : "90698345" },
+      { "_id" : 2, address: "156 Lunar Place", zipCode : 43339374 },
+      { "_id" : 3, address : "2324 Pluto Place", zipCode: NumberLong(3921412) },
+      { "_id" : 4, address : "55 Saturn Ring" , zipCode : NumberInt(88602117) },
+      { "_id" : 5, address : "104 Venus Drive", zipCode : ["834847278", "1893289032"]}
+   ]
+)
+
+db.addressBook.find( { "zipCode" : { $type : "string" } } );
+
+
+db.inventory.insertMany( [
+   { "_id" : 1, "item" : "abc123", "qty" : 0 },
+   { "_id" : 2, "item" : "xyz123", "qty" : 5 },
+   { "_id" : 3, "item" : "ijk123", "qty" : 12 }
+] )
+
+db.inventory.find( { qty: { $mod: [ 4, 0 ] } } )
+
+
+db.players.insertMany([
+   { _id: 12378, name: "Steve", username: "steveisawesome", first_login: "2017-01-01" },
+   { _id: 2, name: "Anya", username: "anya", first_login: "2001-02-02" }
+])
+
+db.players.find( { $where: function() {
+   return (hex_md5(this.name) == "9b53e667f30cd329dca1ec9e6a83e994")
+} } );
+
+
+
+db.users.insert({name:"matt", contact:{type:"office", phone:"031-000-0000"}})
+
+db.users.find({contact:{type:"office", phone:"031-000-0000"}})
+
+db.users.find({"contact.type":"office", "contact.phone":"031-000-0000"})
+
+
+db.users.find({contact:{type:"office"}})
+
+db.users.find({"contact.type":"office"})
+
+
+
+db.users.find().limit(2)
+db.users.findOne()
+db.users.find().skip(1)
+
+db.users.find().sort({id:1})
+
+
+var cursor = db.users.find()
+cursor.hasNext()
+cursor.next() 
+
+cursor.hasNext() ? cursor.next() : null
+
+db.inventory.drop()
+db.inventory.insert({"_id":1, "item":"f1", "type":"food",quantity:500})
+db.inventory.insert({"_id":2, "item":"f2", "type":"food",quantity:100})
+db.inventory.insert({"_id":3, "item":"p1", "type":"paper",quantity:200})
+db.inventory.insert({"_id":4, "item":"p2", "type":"paper",quantity:150})
+db.inventory.insert({"_id":5, "item":"f3", "type":"food",quantity:350})
+db.inventory.insert({"_id":6, "item":"t1", "type":"toys",quantity:500})
+db.inventory.insert({"_id":7, "item":"a1", "type":"apparel",quantity:250})
+db.inventory.insert({"_id":8, "item":"a2", "type":"apparel",quantity:400})
+db.inventory.insert({"_id":9, "item":"t2", "type":"toys",quantity:50})
+db.inventory.insert({"_id":10, "item":"f4", "type":"food",quantity:75})
+
+db.inventory.find({quantity:{$gte:100, $lte:200}})
+
+
+
+db.inventory.createIndex({quantity:1})
+db.inventory.find({quantity:{$gte:100, $lte:200}}).explain("executionStats")
+
+
+
+db.products.insert({'name':'iPad 16GB Wifi', 'manufacture':"Apple",
+                    'category':'Tablets', 'price':499.00})
+db.products.insert({'name':'iPad 32GB Wifi', 'category':'Tablets',
+                    'manufacture':"Apple", 'price':599.00})
+db.products.insert({'name':'iPad 64GB Wifi', 'category':'Tablets',
+                    'manufacture':"Apple",  'price':699.00})
+db.products.insert({'name':'Galaxy S3', 'category':'Cell Phones',
+                    'manufacture':'Samsung', 'price':563.99})
+db.products.insert({'name':'Galaxy Tab 10', 'category':'Tablets',
+                    'manufacture':'Samsung', 'price':450.99})
+db.products.insert({'name':'Vaio', 'category':'Laptops',
+                    'manufacture':"Sony", 'price':499.00})
+db.products.insert({'name':'Macbook Air 13inch', 'category':'Laptops',
+                    'manufacture':"Apple", 'price':499.00})
+db.products.insert({'name':'Nexus 7', 'category':'Tablets',
+                    'manufacture':"Google", 'price':199.00})
+db.products.insert({'name':'Kindle Paper White', 'category':'Tablets',
+                    'manufacture':"Amazon", 'price':129.00})
+db.products.insert({'name':'Kindle Fire', 'category':'Tablets',
+                    'manufacture':"Amazon", 'price':199.00}) 
+
+
+db.rating.insertMany([
+  {_id: 1, rating: 1, user_id: 2},
+  {_id: 2, rating: 2, user_id: 3},
+  {_id: 3, rating: 3, user_id: 4},
+  {_id: 4, rating: 3, user_id: 1},
+  {_id: 5, rating: 4, user_id: 5},
+  {_id: 6, rating: 4, user_id: 8},
+  {_id: 7, rating: 5, user_id: 9},
+  {_id: 8, rating: 5, user_id: 10},
+  {_id: 9, rating: 5, user_id: 11},
+  {_id: 10, rating: 5, user_id: 12}
+])
+
+
+var mapper = function(){ 
+		emit(this.rating, this.user_id)
+}
+
+var reducer = function(key, values){ return values.length}
+
+db.rating.mapReduce(mapper, reducer, {out: {inline: 1}})
+
+db.users.mapReduce(mapper, reducer, {out:{inline:1}});
+
+db.products.countDocuments()
+
+db.products.distinct('manufacture')
+
+db.products.aggregate([{$group:{_id:{"maker":"$manufacture"}, sum_prices:{$sum :"$price"}}}])
+
+db.products.aggregate([{$group:{_id:{"category":"$category"}, sum_prices:{$sum:"$price"}}}])
+
+db.products.aggregate([{$group:{_id:{"maker":"$manufacture"}, categories:{$push:"$category"}}}])
+
+db.products.aggregate([{$sort:{price:-1}}])
+
+
+
+db.user.replaceOne({username: "karoid"},
+{
+  username: "Karpoid" , status: "Sleep" , points: 100, password: 2222
+});
+
+db.user.find()
+
+
+db.myCollection.replaceOne({ item: "abcl23" },{item:"abc123", status:"P", points:100}, {upsert:true});
+
+
+db.sample.drop()
+
+db.sample.insert({name:"park", score:90})
+
+Db.sample.find()
+
+db.sample.update( { name: 'park' }, { $set: { score: 100 } } )
+
+db.sample.update({name:"park"},{$inc:{score:-5}})
+
+db.sample.find()
+
+db.sample.update({name:"park"},{$mul:{score:0.5}})
+
+db.sample.find()
+
+db.sample.update({name:"park"},{$rename:{"score":"점수"}})
+
+db.sample.find()
+
+db.sample.update({name:"park"},{$unset:{점수:0.5}})
+
+db.sample.find()
+
+db.sample.update({name:"park"},{$currentDate:{lastModified:true}})
+
+db.sample.find()
+
+db.sample.update({_id:1}, {$set:{score:90}, $setOnInsert:{age:30}}, {upsert:true})
+
+db.sample.find()
+
+db.users.update({name:"ryu"}, {$set:{score:90}}, {upsert:false})
+
+db.users.update({name:"ryu"}, {$set:{score:90}}, {upsert:true})
+
+db.board.insert( {"board_num":1, "board_id":"ggangpae1", "board_title":"가입인사", "board_content":"안녕하세요 반갑습니다.", "reply":[]})
+
+db.board.update({"board_num":1},{"$push":{"reply":{"reply_num":1, "reply_content":"반갑습니다", "reply_id":"root", "reply_time":ISODate("2019-12-31T09:00:00")}}})
+
+db.board.update({"board_num":1},{"$push":{"reply":{"reply_num":2, "reply_content":"정말로 반가워", "reply_id":"system", "reply_time":ISODate("2019-12-31T09:00:00")}}})
+
+db.board.find()
+
+db.board.update({"board_num":1, "reply.reply_num":1},{"$set":{"reply.$":{"reply_num":1, "reply_time":ISODate("2020-12-31T10:00:00")}}})
+
+db.board.find()
+
+db.board.update({"board_num":1},{"$pull":{"reply":{"reply_num":1}}})
+
+db.containerBox.find(null, {_id:false})
+
+db.containerBox.updateMany({ name: "bear"},
+{$set: {name: "teddy bear", category: "toy"}});
+
+db.containerBox.find(null, {_id:false})
+
+db.character.insertMany([
+{name: 'x', inventory: ['pen', 'cloth', 'pen']},
+{name: 'y', inventory: ['book', 'cloth'], position:{x:1, y:5}}, 
+{name: 'z', inventory: ['wood', 'pen'], position:{x:0, y:9}}])
+
+
+db.character.updateMany({}, {$set: {"inventory.$[penElem]": "pencil"}}, {arrayFilters: [{penElem: 'pen'}]})
+
+db.character.find({"inventory": "pencil"})
+
+db.character.deleteMany({})
+
+db.containerBox.deleteMany({category: 'animal'})
+
+db.sample.remove({_id:1}, {justOne:true})
+
+db.sample.find()
+
+db.board.bulkWrite([{insertOne:{"document":{"title":"hi", "content":"hello"}}}, {updateOne:{"filter":{"title":"hi"}, "update":{$set:{"content":"안녕하세요"}}}}])
+
+
+var bulk = db.inventory.initializeUnorderedBulkOp();
+
+bulk.insert({item:"iPadPro", details:{RAM:"3GB", SSD:"128GB"}, category:"Apple"});
+
+bulk.insert({item:"MacBookPro", details:{RAM:"16GB",SSD:"256GB"}, category:"Apple"});
+
+bulk.execute();
+
