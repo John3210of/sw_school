@@ -38,7 +38,7 @@ def fibo_recursive(n):
 
 def time_logging_with_flag(func):
     # 로깅 플래그를 저장하는 속성 추가
-    func._is_logging = False
+    func._is_logging = False # > 함수는 객체이므로 동적으로 속성을 추가해주는 것이 가능하다.
     def inner(*args, **kwargs):
         if not func._is_logging:
             func._is_logging = True
@@ -54,6 +54,16 @@ def time_logging_with_flag(func):
     return inner
 
 @time_logging_with_flag
+def fibo_recursive(n):
+    if n < 2:
+        return 1
+    else:
+        return fibo_recursive(n-2) + fibo_recursive(n-1)
+
+# 혹은 제공하는 라이브러리를 사용이 가능하다.
+import functools
+@functools.lru_cache() # least recently used cache
+@time_logging
 def fibo_recursive(n):
     if n < 2:
         return 1
