@@ -64,3 +64,24 @@ class SingleTonTest:
 ins1=SingleTonTest()
 ins2=SingleTonTest()
 print(ins1 is ins2) # True
+
+# 
+class Person:
+    def __init__(self):
+        self.name = ''
+        self.hobbies = []
+
+    def getName(self):
+        return self.name
+
+    def getHobbies(self):
+        return self.hobbies
+
+    def getHobby(self,idx):
+        return self.hobbies[idx]
+    
+    def setHobbies(self,hobbies):
+        self.hobbies = hobbies
+    
+    def setHobby(self,idx,hobby):
+        self.hobbies.insert(idx,hobby)
