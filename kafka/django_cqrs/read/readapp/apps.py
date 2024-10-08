@@ -31,10 +31,10 @@ class ReadappConfig(AppConfig):
         # MongoDB에 데이터를 한 번에 삽입
         
         for doc in docs:
-            if isinstance(doc.get('published_date'), date):  # datetime.date 대신 date를 사용
+            if isinstance(doc.get('published_date'), date):
                 doc['published_date'] = datetime.combine(doc['published_date'], datetime.min.time())
         if docs:
-            collect.insert_many(docs)  # 한 번에 여러 문서 삽입
+            collect.insert_many(docs)
             print(f"{len(docs)}개의 데이터가 MongoDB에 삽입되었습니다.")
         else:
             print("삽입할 데이터가 없습니다.")
