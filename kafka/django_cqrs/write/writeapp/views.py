@@ -6,10 +6,6 @@ from .models import *
 
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
-    qs = len(queryset)
-    print("*********************")
-    print(qs)
-    print("*********************")
     serializer_class = BookSerializer
 
     # 데이터가 리스트로 들어오는 경우 처리하기 위해 create 메소드를 오버라이딩
