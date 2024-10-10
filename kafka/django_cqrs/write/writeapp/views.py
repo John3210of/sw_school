@@ -2,21 +2,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status
 from .serializers import BookSerializer
 from .models import *
-from kafka import KafkaProducer
 import json
-from kafka.admin import KafkaAdminClient, NewTopic
-from kafka.errors import TopicAlreadyExistsError
-
-def create_topic_if_not_exists(topic_name):
-    admin_client = KafkaAdminClient(bootstrap_servers='localhost:9092')
-    topic_list = [NewTopic(name=topic_name, num_partitions=1, replication_factor=1)]
-    try:
-        admin_client.create_topics(new_topics=topic_list, validate_only=False)
-        print(f"Topic '{topic_name}' created successfully.")
-    except TopicAlreadyExistsError:
-        print(f"Topic '{topic_name}' already exists.")
-    finally:
-        admin_client.close()
+from kafka import KafkaProducer
 
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
@@ -28,7 +15,6 @@ class BookViewSet(viewsets.ModelViewSet):
             bootstrap_servers='localhost:9092',
             value_serializer=lambda v: json.dumps(v).encode('utf-8')
         )
-        create_topic_if_not_exists('books-topic')
         if isinstance(data, list):
             response_data = []
             for item in data:
