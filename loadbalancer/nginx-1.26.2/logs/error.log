@@ -1,0 +1,4 @@
+2024/10/10 16:49:28 [error] 21168#20556: *1 CreateFile() "C:\sw_school\loadbalancer\nginx-1.26.2/html/favicon.ico" failed (2: The system cannot find the file specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2024/10/10 17:11:40 [emerg] 22268#12656: unexpected "}" in C:\sw_school\loadbalancer\nginx-1.26.2/conf/nginx.conf:52
+2024/10/10 17:12:04 [emerg] 4024#16668: unexpected "}" in C:\sw_school\loadbalancer\nginx-1.26.2/conf/nginx.conf:52
+2024/10/10 17:12:29 [emerg] 12584#9856: unexpected "}" in C:\sw_school\loadbalancer\nginx-1.26.2/conf/nginx.conf:52
