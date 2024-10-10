@@ -9,6 +9,8 @@ def get_mongo_connection():
     return client, db
 
 class BookViewSet(viewsets.ViewSet):
+    def get_view_name(self):
+        return "Read app Book List"
     def list(self, request):
         client, db = get_mongo_connection()
         collection = db.books
