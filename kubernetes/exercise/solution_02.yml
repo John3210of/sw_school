@@ -1,0 +1,32 @@
+# 아래 파일은 pod가 정의된 스크립트이다.
+# 애플리케이션 컨테이너는 80번 포트를 주시하는 웹사이트를 실행한다.
+# 80번 포트로 트래픽을 전달하면 웹앱이 localhost로 웹앱에 접근할 수 있다.
+# 이 호스트명은 pod이름이다.
+
+
+# kubectl apply -f solution/whoami-deployment.yaml
+# kubectl port-forward deploy/whoami-deployment 8080:80
+# curl http://localhost:8080
+# kubectl get pods -o custom-columns=NAME:metadata.name
+# kubectl exec deploy/whoami-deployment -- sh -c 'hostname'
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-deployment
+  labels: 
+    app: whoami
+spec:
+  replicas: 2
+  selector:                 
+    matchLabels:
+      app: whoami
+  template:                  
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+      - name: web
+        image: kiamol/ch02-whoami
