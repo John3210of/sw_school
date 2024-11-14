@@ -1,0 +1,10 @@
+- hosts: localhost
+  become: yes                                                                           
+  become_method: sudo                                                                   
+  tasks:
+  - name: Create Namespace
+    kubernetes.core.k8s:
+      name: my-namespace
+      api_version: v1
+      kind: Namespace
+      state: present
